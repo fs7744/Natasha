@@ -186,7 +186,8 @@ API 文档地址：[测试地址](https://fs7744.github.io/Natasha/)
 
 ## 使用方法
 
-* 创建动态方法:
+### 创建动态方法:
+
 ``` csharp
 //动态创建Action委托
 Delegate newMethod0 = EHandler.CreateMethod<ENull>((il)=>{
@@ -209,21 +210,22 @@ Delegate newMethod3 = EHandler.CreateMethod<string, TestClass>((il) =>{
 }).Compile();
 ```
 
-* 创建普通变量(非结构体，非类实例，非数组):
+### 创建普通变量(非结构体，非类实例，非数组):
+
 ``` csharp
 //动态创建Action委托
 Delegate newMethod = EHandler.CreateMethod<ENull>((il) =>
 {
-      //创建没有临时变量的普通入栈变量(没有临时变量，所以自加操作没有意义)
-      EVar intHandler = 1;
+    //创建没有临时变量的普通入栈变量(没有临时变量，所以自加操作没有意义)
+    EVar intHandler = 1;
 
-      //创建函数操作句柄
-      EMethod method = typeof(Console);
+    //创建函数操作句柄
+    EMethod method = typeof(Console);
 
-      //输出intHandler的时候，让变量做加法运算。
-      method.ExecuteMethod<int>("WriteLine", intHandler + 665);
+    //输出intHandler的时候，让变量做加法运算。
+    method.ExecuteMethod<int>("WriteLine", intHandler + 665);
 
-      //结果:666；
+    //结果:666；
 
 }).Compile();
 ((Action)newMethod)();
@@ -231,29 +233,30 @@ Delegate newMethod = EHandler.CreateMethod<ENull>((il) =>
 //动态创建Action委托
 Delegate newMethod1 = EHandler.CreateMethod<ENull>((il) =>
 {
-       //创建有临时变量的普通入栈变量(自加操作可以被自身储存) 也就是说可以使用store存储函数
-       //int i = 664;
-       EVar intHandler = EVar.CreateVarFromObject(664);
+    //创建有临时变量的普通入栈变量(自加操作可以被自身储存) 也就是说可以使用store存储函数
+    //int i = 664;
+    EVar intHandler = EVar.CreateVarFromObject(664);
 
-       //i++;
-       intHandler++;
+    //i++;
+    intHandler++;
 
-       //i=i+1;
-       intHandler.Store(intHandler + 1);
+    //i=i+1;
+    intHandler.Store(intHandler + 1);
 
-       //创建函数操作句柄
-       EMethod method = typeof(Console);
+    //创建函数操作句柄
+    EMethod method = typeof(Console);
 
-       //输出intHandler
-       method.ExecuteMethod<int>("WriteLine", intHandler);
+    //输出intHandler
+    method.ExecuteMethod<int>("WriteLine", intHandler);
 
-       //结果:666
+    //结果:666
 
- }).Compile();
+}).Compile();
 ((Action)newMethod1)();
 ```
 
-* 创建类\创建结构体:
+### 创建类\创建结构体:
+
 ``` csharp
 //动态创建Action委托
 Delegate newMethod = EHandler.CreateMethod<ENull>((il) =>
@@ -288,7 +291,8 @@ Delegate newMethod = EHandler.CreateMethod<ENull>((il) =>
 ((Action)newMethod)();
 ```
 
-* 创建数组\遍历数组:
+### 创建数组\遍历数组:
+
 ``` csharp
 string[]        strArray    = new string[5];
 StructField[]   structArray = new StructField[5];
@@ -378,7 +382,8 @@ Delegate newMethod = EHandler.CreateMethod<ENull>((il) =>
 ((Action)newMethod)(); 
 ```
 
-* 条件:
+### 条件:
+
 ``` csharp
  TestClass t = new TestClass();
  t.Field = 10;
@@ -409,7 +414,8 @@ Delegate showResult = EHandler.CreateMethod<ENull>((il) =>
 ((Action)showResult)();
 ```
 
-* while循环:
+### while循环:
+
 ``` csharp
 Delegate showResult = EHandler.CreateMethod<ENull>((il) =>
 {
@@ -455,7 +461,8 @@ Delegate showResult = EHandler.CreateMethod<ENull>((il) =>
 ((Action)showResult)();
 ```
 
-* 自定义类/使用自定义类:
+### 自定义类/使用自定义类:
+
 ``` csharp
 ClassBuilder builder = ClassBuilder.CreateModel("Hello");
 builder.CreateDefaultConstructor();
@@ -483,12 +490,13 @@ Delegate ShowDelegate = EHandler.CreateMethod<ENull>((il) =>
 ((Action)ShowDelegate)();
 ```
 
-* 补充:
+### 补充:
 
     更多的详细用法请参照源代码中工程例子，对于迭代接口请实现Iiterator接口，并调用Eloop的Foreach方法进行遍历。 
     以下是List的迭代接口实现案例，考虑在下一版中实现对迭代器的支持；
 
-* 迭代器实现:
+### 迭代器实现:
+
 ``` csharp
 #region 迭代器属性和方法(不支持)
 public int Length

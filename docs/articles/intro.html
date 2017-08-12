@@ -268,38 +268,40 @@ EVar提供了普通变量的操作， EClass提供了类和结构体的操作，
 </li>
 </ul>
 <h2 id="使用方法">使用方法</h2>
-<ul>
-<li>创建动态方法:
-``` csharp
-//动态创建Action委托
-Delegate newMethod0 = EHandler.CreateMethod<enull>((il)=&gt;{</enull></li>
-</ul>
-<p>}).Compile();</p>
-<p>//动态创建Action<string,int>委托
-Delegate newMethod1 = EHandler.CreateMethod<string,int,enull>((il)=&gt;{<p>
-<p>}).Compile();</p>
-<p>//动态创建Func<string>委托
-Delegate newMethod2 = EHandler.CreateMethod<string>((il) =&gt; { <p>
-<p>}).Compile();</p>
-<p>//动态创建Func<string,testclass>委托
-Delegate newMethod3 = EHandler.CreateMethod<string, testclass="">((il) =&gt;{<p>
-<p>}).Compile();</p>
-<pre><code>
-* 创建普通变量(非结构体，非类实例，非数组):
-``` csharp
-//动态创建Action委托
+<h3 id="创建动态方法">创建动态方法:</h3>
+<pre><code class="lang-csharp">//动态创建Action委托
+Delegate newMethod0 = EHandler.CreateMethod&lt;ENull&gt;((il)=&gt;{
+
+}).Compile();
+
+//动态创建Action&lt;string,int&gt;委托
+Delegate newMethod1 = EHandler.CreateMethod&lt;string,int,ENull&gt;((il)=&gt;{
+
+}).Compile();
+
+//动态创建Func&lt;string&gt;委托
+Delegate newMethod2 = EHandler.CreateMethod&lt;string&gt;((il) =&gt; { 
+
+}).Compile();
+
+//动态创建Func&lt;string,TestClass&gt;委托
+Delegate newMethod3 = EHandler.CreateMethod&lt;string, TestClass&gt;((il) =&gt;{
+
+}).Compile();
+</code></pre><h3 id="创建普通变量非结构体非类实例非数组">创建普通变量(非结构体，非类实例，非数组):</h3>
+<pre><code class="lang-csharp">//动态创建Action委托
 Delegate newMethod = EHandler.CreateMethod&lt;ENull&gt;((il) =&gt;
 {
-      //创建没有临时变量的普通入栈变量(没有临时变量，所以自加操作没有意义)
-      EVar intHandler = 1;
+    //创建没有临时变量的普通入栈变量(没有临时变量，所以自加操作没有意义)
+    EVar intHandler = 1;
 
-      //创建函数操作句柄
-      EMethod method = typeof(Console);
+    //创建函数操作句柄
+    EMethod method = typeof(Console);
 
-      //输出intHandler的时候，让变量做加法运算。
-      method.ExecuteMethod&lt;int&gt;(&quot;WriteLine&quot;, intHandler + 665);
+    //输出intHandler的时候，让变量做加法运算。
+    method.ExecuteMethod&lt;int&gt;(&quot;WriteLine&quot;, intHandler + 665);
 
-      //结果:666；
+    //结果:666；
 
 }).Compile();
 ((Action)newMethod)();
@@ -307,66 +309,60 @@ Delegate newMethod = EHandler.CreateMethod&lt;ENull&gt;((il) =&gt;
 //动态创建Action委托
 Delegate newMethod1 = EHandler.CreateMethod&lt;ENull&gt;((il) =&gt;
 {
-       //创建有临时变量的普通入栈变量(自加操作可以被自身储存) 也就是说可以使用store存储函数
-       //int i = 664;
-       EVar intHandler = EVar.CreateVarFromObject(664);
+    //创建有临时变量的普通入栈变量(自加操作可以被自身储存) 也就是说可以使用store存储函数
+    //int i = 664;
+    EVar intHandler = EVar.CreateVarFromObject(664);
 
-       //i++;
-       intHandler++;
+    //i++;
+    intHandler++;
 
-       //i=i+1;
-       intHandler.Store(intHandler + 1);
+    //i=i+1;
+    intHandler.Store(intHandler + 1);
 
-       //创建函数操作句柄
-       EMethod method = typeof(Console);
+    //创建函数操作句柄
+    EMethod method = typeof(Console);
 
-       //输出intHandler
-       method.ExecuteMethod&lt;int&gt;(&quot;WriteLine&quot;, intHandler);
+    //输出intHandler
+    method.ExecuteMethod&lt;int&gt;(&quot;WriteLine&quot;, intHandler);
 
-       //结果:666
+    //结果:666
 
- }).Compile();
+}).Compile();
 ((Action)newMethod1)();
-</code></pre><ul>
-<li><p>创建类\创建结构体:</p>
+</code></pre><h3 id="创建类创建结构体">创建类\创建结构体:</h3>
 <pre><code class="lang-csharp">//动态创建Action委托
 Delegate newMethod = EHandler.CreateMethod&lt;ENull&gt;((il) =&gt;
 {
 
-  EModel model = null;
+    EModel model = null;
 
-  //测试类的字段
-  //model = EModel.CreateModel&lt;DocumentClassFieldTest&gt;();
+    //测试类的字段
+    //model = EModel.CreateModel&lt;DocumentClassFieldTest&gt;();
 
-  //测试类的属性
-  //model = EModel.CreateModel&lt;DocumentClassPropertyTest&gt;();
+    //测试类的属性
+    //model = EModel.CreateModel&lt;DocumentClassPropertyTest&gt;();
 
-  //测试结构体的字段
-  model = EModel.CreateModel&lt;StructField&gt;();
+    //测试结构体的字段
+    model = EModel.CreateModel&lt;StructField&gt;();
 
-  //测试结构体的属性
-  // model = EModel.CreateModel&lt;DocumentStructPropertyTest&gt;();
+    //测试结构体的属性
+    // model = EModel.CreateModel&lt;DocumentStructPropertyTest&gt;();
 
-  model.Set(&quot;PublicName&quot;, &quot;This is Public-Name&quot;);
-  model.Set(&quot;PrivateName&quot;, &quot;This is Private-Name&quot;);
-  model.Set(&quot;PublicAge&quot;, 666);
-  model.Set(&quot;PrivateAge&quot;, 666);
+    model.Set(&quot;PublicName&quot;, &quot;This is Public-Name&quot;);
+    model.Set(&quot;PrivateName&quot;, &quot;This is Private-Name&quot;);
+    model.Set(&quot;PublicAge&quot;, 666);
+    model.Set(&quot;PrivateAge&quot;, 666);
 
-  EMethod method = typeof(Console);
-  method.ExecuteMethod&lt;string&gt;(&quot;WriteLine&quot;, model.Load(&quot;PrivateName&quot;));
-  method.ExecuteMethod&lt;string&gt;(&quot;WriteLine&quot;, model.Load(&quot;PublicName&quot;));
-  method.ExecuteMethod&lt;int&gt;(&quot;WriteLine&quot;, model.Load(&quot;PublicAge&quot;));
-  method.ExecuteMethod&lt;int&gt;(&quot;WriteLine&quot;, model.Load(&quot;PrivateAge&quot;));
+    EMethod method = typeof(Console);
+    method.ExecuteMethod&lt;string&gt;(&quot;WriteLine&quot;, model.Load(&quot;PrivateName&quot;));
+    method.ExecuteMethod&lt;string&gt;(&quot;WriteLine&quot;, model.Load(&quot;PublicName&quot;));
+    method.ExecuteMethod&lt;int&gt;(&quot;WriteLine&quot;, model.Load(&quot;PublicAge&quot;));
+    method.ExecuteMethod&lt;int&gt;(&quot;WriteLine&quot;, model.Load(&quot;PrivateAge&quot;));
 
-
-</code></pre></li>
-</ul>
-<p>}).Compile();
-((Action)newMethod)();</p>
-<pre><code>
-* 创建数组\遍历数组:
-``` csharp
-string[]        strArray    = new string[5];
+}).Compile();
+((Action)newMethod)();
+</code></pre><h3 id="创建数组遍历数组">创建数组\遍历数组:</h3>
+<pre><code class="lang-csharp">string[]        strArray    = new string[5];
 StructField[]   structArray = new StructField[5];
 DocumentEnum[]  enumArray   = new DocumentEnum[5];
 
@@ -452,39 +448,36 @@ Delegate newMethod = EHandler.CreateMethod&lt;ENull&gt;((il) =&gt;
     });
 }).Compile();
 ((Action)newMethod)(); 
-</code></pre><ul>
-<li>条件:
-``` csharp
-TestClass t = new TestClass();
-t.Field = 10;
-t.Property = 20;</li>
-</ul>
-<p>Delegate showResult = EHandler.CreateMethod<enull>((il) =&gt;
-{
-    EMethod method = typeof(Console);<p>
-<pre><code>EVar emit_A = EVar.CreateWithoutTempVar(10);
-EVar emit_B = EVar.CreateVarFromObject(20);
-EModel model = EModel.CreateModelFromObject(t);
+</code></pre><h3 id="条件">条件:</h3>
+<pre><code class="lang-csharp"> TestClass t = new TestClass();
+ t.Field = 10;
+ t.Property = 20;
 
-//注意model.DLoad方法，D代表Delay的意思就是延迟加载
-EJudge.If(emit_A == model.DLoad(&quot;Field&quot;).Model)(() =&gt;
-{
-    method.ExecuteMethod&lt;int&gt;(&quot;WriteLine&quot;, 10);
-
-}).ElseIf(emit_A &gt; emit_B)(() =&gt;
-{
-    method.ExecuteMethod&lt;int&gt;(&quot;WriteLine&quot;, emit_A);
-
-}).Else(() =&gt;
-{
-    method.ExecuteMethod&lt;int&gt;(&quot;WriteLine&quot;, emit_B);
-});
-</code></pre><p>}).Compile();
-((Action)showResult)();</p>
-<pre><code>
-* while循环:
-``` csharp
 Delegate showResult = EHandler.CreateMethod&lt;ENull&gt;((il) =&gt;
+{
+    EMethod method = typeof(Console);
+
+    EVar emit_A = EVar.CreateWithoutTempVar(10);
+    EVar emit_B = EVar.CreateVarFromObject(20);
+    EModel model = EModel.CreateModelFromObject(t);
+
+    //注意model.DLoad方法，D代表Delay的意思就是延迟加载
+    EJudge.If(emit_A == model.DLoad(&quot;Field&quot;).Model)(() =&gt;
+    {
+        method.ExecuteMethod&lt;int&gt;(&quot;WriteLine&quot;, 10);
+
+    }).ElseIf(emit_A &gt; emit_B)(() =&gt;
+    {
+        method.ExecuteMethod&lt;int&gt;(&quot;WriteLine&quot;, emit_A);
+
+    }).Else(() =&gt;
+    {
+        method.ExecuteMethod&lt;int&gt;(&quot;WriteLine&quot;, emit_B);
+    });
+}).Compile();
+((Action)showResult)();
+</code></pre><h3 id="while循环">while循环:</h3>
+<pre><code class="lang-csharp">Delegate showResult = EHandler.CreateMethod&lt;ENull&gt;((il) =&gt;
 {
     EMethod method = typeof(Console);
 
@@ -526,42 +519,36 @@ Delegate showResult = EHandler.CreateMethod&lt;ENull&gt;((il) =&gt;
 
 }).Compile();
 ((Action)showResult)();
-</code></pre><ul>
-<li>自定义类/使用自定义类:
-``` csharp
-ClassBuilder builder = ClassBuilder.CreateModel(&quot;Hello&quot;);
+</code></pre><h3 id="自定义类使用自定义类">自定义类/使用自定义类:</h3>
+<pre><code class="lang-csharp">ClassBuilder builder = ClassBuilder.CreateModel(&quot;Hello&quot;);
 builder.CreateDefaultConstructor();
-builder.CreateField<string>(&quot;Age&quot;, FieldAttributes.Public);
-builder.CreateProperty<string>(&quot;Name&quot;);
-builder.CreateMethod<enull>(&quot;Show&quot;, MethodAttributes.Public, (classModel) =&gt;
+builder.CreateField&lt;string&gt;(&quot;Age&quot;, FieldAttributes.Public);
+builder.CreateProperty&lt;string&gt;(&quot;Name&quot;);
+builder.CreateMethod&lt;ENull&gt;(&quot;Show&quot;, MethodAttributes.Public, (classModel) =&gt;
 {
-  classModel.SField(&quot;Age&quot;, &quot;This is Age.&quot;);
-  classModel.SProperty(&quot;Name&quot;, &quot;This is name.&quot;);
-  classModel.LPropertyValue(&quot;Name&quot;);
-  classModel.ilHandler.Emit(OpCodes.Call, typeof(Console).GetMethod(&quot;WriteLine&quot;, new Type[] { typeof(string) }));
-  classModel.ilHandler.Emit(OpCodes.Ret);
-  //下一版酌情对Method创建做优化
+    classModel.SField(&quot;Age&quot;, &quot;This is Age.&quot;);
+    classModel.SProperty(&quot;Name&quot;, &quot;This is name.&quot;);
+    classModel.LPropertyValue(&quot;Name&quot;);
+    classModel.ilHandler.Emit(OpCodes.Call, typeof(Console).GetMethod(&quot;WriteLine&quot;, new Type[] { typeof(string) }));
+    classModel.ilHandler.Emit(OpCodes.Ret);
+    //下一版酌情对Method创建做优化
 });
-builder.EndBuilder();</enull></string></string></li>
-</ul>
-<p>//使用自定义类
-Delegate ShowDelegate = EHandler.CreateMethod<enull>((il) =&gt;
+builder.EndBuilder();
+
+//使用自定义类
+Delegate ShowDelegate = EHandler.CreateMethod&lt;ENull&gt;((il) =&gt;
 {
     ClassHandler Model = ClassHandler.CreateInstance(&quot;Hello&quot;);
     Model.EMethod(&quot;Show&quot;);
     Model.LField(&quot;Age&quot;);
     Model.ilHandler.Emit(OpCodes.Call, typeof(Console).GetMethod(&quot;WriteLine&quot;, new Type[] { typeof(string) }));
 }).Compile();
-((Action)ShowDelegate)();<p>
-<pre><code>
-* 补充:
-
-    更多的详细用法请参照源代码中工程例子，对于迭代接口请实现Iiterator接口，并调用Eloop的Foreach方法进行遍历。 
-    以下是List的迭代接口实现案例，考虑在下一版中实现对迭代器的支持；
-
-* 迭代器实现:
-``` csharp
-#region 迭代器属性和方法(不支持)
+((Action)ShowDelegate)();
+</code></pre><h3 id="补充">补充:</h3>
+<pre><code>更多的详细用法请参照源代码中工程例子，对于迭代接口请实现Iiterator接口，并调用Eloop的Foreach方法进行遍历。 
+以下是List的迭代接口实现案例，考虑在下一版中实现对迭代器的支持；
+</code></pre><h3 id="迭代器实现">迭代器实现:</h3>
+<pre><code class="lang-csharp">#region 迭代器属性和方法(不支持)
 public int Length
 {
     get;
@@ -643,7 +630,7 @@ public void Initialize()
 我也相信，没有创造力是看不清未来的。
 </code></pre><p>愿这个库能给您的项目带来方便，给创作带来便利与灵感。 </p>
 <p>希望.NET在接下来的发展中能吸引更多的创造者，让.NET世界百花齐放。</p>
-</enull></enull></string,></string,testclass></string></string></string,int,enull></string,int></article>
+</article>
           </div>
           
           <div class="hidden-sm col-md-2" role="complementary">
